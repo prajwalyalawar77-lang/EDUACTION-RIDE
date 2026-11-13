@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block body %}<div class="container py-3"><h1 class="h3">Demand analytics</h1><div class="row g-3"><div class="col-md-6"><div class="glass"><h2 class="h5">Students requesting rides by village</h2><canvas id="a"></canvas></div></div>
+<div class="col-md-6"><div class="glass"><h2 class="h5">Requests by status</h2><canvas id="b"></canvas></div></div></div></div>{% endblock %}
+{% block js %}<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script><script>
+fetch('/api/analytics').then(r=>r.json()).then(d=>{
+ new Chart(a,{type:'bar',data:{labels:d.villages.map(x=>x.village||'none'),datasets:[{label:'Students',data:d.villages.map(x=>x.n),backgroundColor:'#10b981'}]}});
+ new Chart(b,{type:'doughnut',data:{labels:d.statuses.map(x=>x.status),datasets:[{data:d.statuses.map(x=>x.n),backgroundColor:['#10b981','#13305a','#f59e0b','#dc2626','#9ca3af']}]}});});
+</script>{% endblock %}

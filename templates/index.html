@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% block body %}
+<header class="hero"><div class="container"><div class="row align-items-center g-5"><div class="col-lg-6">
+<p class="mb-2">No Bus, No Barrier. Every Student Deserves a Ride.</p>
+<h1 class="display-4 fw-bold">Your Education Journey Should Never Stop.</h1>
+<p class="fs-5">An intelligent transportation platform connecting rural students with reliable buses, smart route recommendations and alternative rides.</p>
+<div class="d-flex flex-wrap gap-2 mt-4"><a href="/planner" class="btn btn-em btn-lg">Plan Your Journey</a><a href="/emergency" class="btn btn-outline-light btn-lg">Find Emergency Ride</a><a href="#features" class="btn btn-link text-white">Explore Features</a></div></div>
+<div class="col-lg-6"><div class="glass text-white" style="background:rgba(255,255,255,.08)"><h2 class="h5">One morning, one route</h2>
+<p class="mb-2">120 students need a seat. The bus has 80.</p>
+<div class="seats mb-3" aria-label="80 seats filled, 40 students without a seat">{% for i in range(120) %}<i class="{{ 'x' if i >= 80 }}"></i>{% endfor %}</div>
+<p class="mb-0 small">Green: seated by the bus. Amber: 40 students who need another ride. Education Ride flags this gap and matches them to shared vans. <span class="badge badge-sim">Example</span></p></div></div></div></div></header>
+<section><div class="container"><div class="row g-4 text-center">
+<div class="col-6 col-md-3"><div class="stat">{{ s.students }}</div>registered students</div><div class="col-6 col-md-3"><div class="stat">{{ s.buses }}</div>government buses</div>
+<div class="col-6 col-md-3"><div class="stat">{{ s.cancelled }}</div>cancelled buses today</div><div class="col-6 col-md-3"><div class="stat">{{ s.vehicles }}</div>verified vehicles available</div></div>
+<p class="text-center mut small mt-3">Counts come from the database and include demonstration records.</p></div></section>
+<section><div class="container"><div class="row g-4"><div class="col-md-6"><h2>The problem</h2><p class="mut">Rural students lose school days when a bus is cancelled, full or never comes. Private transport is costly, and families have little information about what is running.</p></div>
+<div class="col-md-6"><h2>Our solution</h2><p class="mut">We predict demand, show seat availability, and when a bus fails, match students from nearby villages to verified shared vehicles, with admin approval and parent visibility.</p></div></div></div></section>
+<section id="features"><div class="container"><h2 class="mb-4">Key features</h2><div class="row g-3">
+{% for i,t,d in [('bar-chart-line','Demand prediction','Compares students to seats and explains the gap. Rule-based, not a trained model.'),('truck','Emergency ride finder','Verified vans and mini-buses ranked by distance, seats and fare.'),('people','Shared ride matching','Groups students from nearby villages into one vehicle to cut cost.'),('map','Route map','Villages, colleges and vehicles on OpenStreetMap, with simulated positions clearly labelled.'),('shield-check','Parent portal','Approved rides, status updates and alerts, only with parental consent.'),('wifi-off','Low-connectivity mode','Installable app, cached pages and a low-bandwidth toggle.')] %}
+<div class="col-md-4"><div class="glass h-100"><i class="bi bi-{{ i }} fs-3 text-success"></i><h3 class="h5 mt-2">{{ t }}</h3><p class="mut mb-0">{{ d }}</p></div></div>{% endfor %}</div></div></section>
+<section><div class="container"><h2 class="mb-4">How it works</h2><ol class="mut fs-5"><li>A student registers with a village, a college and parental consent if under 18.</li><li>The planner shows buses, seats and the predicted shortage.</li><li>If a bus is cancelled or full, the student requests an alternative ride.</li><li>An admin approves the vehicle; the student and parent are notified.</li></ol></div></section>
+<section><div class="container"><h2 class="mb-3">Impact and testimonials <span class="badge badge-sim">Demonstration content</span></h2><div class="row g-3">
+{% for q in ['"I used to miss Monday classes when the 7:00 bus was full."','"I can see my daughter\'s ride is approved before she leaves."','"We can add a van and verify it in minutes."'] %}<div class="col-md-4"><div class="glass h-100 fst-italic">{{ q }}<div class="small mut mt-2">Sample student, parent and admin quotes, not real people.</div></div></div>{% endfor %}</div></div></section>
+{% endblock %}

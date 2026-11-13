@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% from '_form.html' import form %}
+{% block body %}<div class="container py-3"><h1 class="h3">Journey planner</h1><div class="glass mb-3">{% call form(st, today, res.trip if res) %}Find buses{% endcall %}</div>
+{% if res %}<div data-save-offline><div class="glass mb-3"><h2 class="h5">Buses on this route ({{ res.info.km }} km, about {{ res.info.minutes }} min)</h2><div class="table-responsive"><table class="table"><tr><th>Bus</th><th>Departs</th><th>Arrives (est.)</th><th>Seats left</th><th>Fare (est.)</th><th>Status</th></tr>
+{% for b in res.buses %}<tr><td>{{ b.number }}</td><td>{{ b.depart_time }}</td><td>{{ b.arrive }}</td><td>{{ b.seats_left }}</td><td>Rs {{ b.fare }}</td><td>{{ b.status }}</td></tr>{% else %}<tr><td colspan="6" class="mut">No government bus runs this route.</td></tr>{% endfor %}</table></div></div>
+{% set d = res.demand %}<div class="glass mb-3"><h2 class="h5">Demand prediction <span class="badge lvl-{{ d.level }}">{{ d.level }}</span></h2>
+<p class="mb-1">Predicted students: <b>{{ d.predicted }}</b>. Seats available: <b>{{ d.capacity }}</b>. Shortage: <b>{{ d.shortage }}</b>. Extra vehicles suggested: <b>{{ d.extra_vehicles }}</b>.</p>
+<p class="small mut mb-0">{{ d.method }}. {{ d.explanation|join(' ') }}</p></div></div>
+{% if res.alt %}<div class="alert alert-warning">Seats look short for your group. <a href="/emergency" class="alert-link">Find my alternative ride</a>.</div>{% endif %}{% endif %}</div>{% endblock %}

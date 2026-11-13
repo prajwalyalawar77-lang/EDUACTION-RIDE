@@ -1,0 +1,7 @@
+{% macro form(st, today, t=none) %}<form method="post" class="row g-2"><input type="hidden" name="csrf" value="{{ csrf() }}">
+<div class="col-md-4"><label class="form-label">Starting village</label><select name="village" class="form-select">{% for v in villages %}<option {{ 'selected' if v==(t.village if t else st.village) }}>{{ v }}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label class="form-label">Destination college</label><select name="college" class="form-select">{% for c in colleges %}<option {{ 'selected' if c==(t.college if t else st.college) }}>{{ c }}</option>{% endfor %}</select></div>
+<div class="col-md-4"><label class="form-label">Students travelling</label><input name="students" type="number" min="1" max="60" value="{{ t.n if t else 1 }}" class="form-control" required></div>
+<div class="col-md-4"><label class="form-label">Travel date</label><input name="date" type="date" min="{{ today }}" value="{{ t.date if t else today }}" class="form-control" required></div>
+<div class="col-md-4"><label class="form-label">Departure time</label><input name="time" type="time" value="{{ t.time if t else '07:00' }}" class="form-control" required></div>
+<div class="col-md-4 d-flex align-items-end"><button class="btn btn-em w-100">{{ caller() }}</button></div></form>{% endmacro %}

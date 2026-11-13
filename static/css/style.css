@@ -1,0 +1,26 @@
+:root{--navy:#0b1f3a;--navy2:#13305a;--em:#10b981;--em-d:#0b8f63;--bg:#f4f8fb;--card:rgba(255,255,255,.72);--tx:#0b1f3a;--mut:#51657d;--bd:rgba(11,31,58,.12)}
+[data-theme=dark]{--bg:#07111f;--card:rgba(19,48,90,.45);--tx:#eaf2fb;--mut:#9db2cb;--bd:rgba(255,255,255,.14)}
+body{font-family:'Public Sans',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+h1,h2,h3,h4,.brand{font-family:'Sora',sans-serif;letter-spacing:-.02em}
+.mut,.text-muted{color:var(--mut)!important}
+.nav-bar{background:var(--navy);border-bottom:2px solid var(--em)}
+.nav-bar a{color:#e6f0fa;text-decoration:none}.nav-bar a:hover{color:var(--em)}
+.brand{font-weight:700;color:#fff!important}.brand b{color:var(--em)}
+.glass{background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--bd);border-radius:14px;padding:1.25rem}
+.btn-em{background:var(--em);color:#04281c;font-weight:600;border:0}.btn-em:hover{background:var(--em-d);color:#fff}
+.btn-outline-navy{border:1.5px solid var(--tx);color:var(--tx)}.btn-outline-navy:hover{background:var(--tx);color:var(--bg)}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:4.5rem 0 4rem}
+.hero p{color:#c4d6ea;max-width:34rem}
+.seats{display:grid;grid-template-columns:repeat(20,1fr);gap:4px;max-width:420px}
+.seats i{aspect-ratio:1;border-radius:4px;background:var(--em)}.seats i.x{background:#f59e0b;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}@media(prefers-reduced-motion:reduce){.seats i.x{animation:none}}
+.stat{font-family:'Sora';font-size:2rem;font-weight:700;color:var(--em)}
+.lvl-HIGH{background:#dc2626;color:#fff}.lvl-MEDIUM{background:#f59e0b;color:#222}.lvl-LOW{background:var(--em-d);color:#fff}
+.badge-sim{background:#f59e0b;color:#222}
+.table{--bs-table-bg:transparent;--bs-table-color:var(--tx);--bs-table-border-color:var(--bd)}
+.form-control,.form-select{background-color:var(--card);color:var(--tx);border-color:var(--bd)}
+.form-control:focus,.form-select:focus{background-color:var(--card);color:var(--tx);border-color:var(--em);box-shadow:0 0 0 .2rem rgba(16,185,129,.25)}
+#map{height:520px;border-radius:14px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--em);outline-offset:2px}
+section{padding:3.5rem 0}
+.low-bw .glass{backdrop-filter:none}.low-bw .hero{background:var(--navy)}

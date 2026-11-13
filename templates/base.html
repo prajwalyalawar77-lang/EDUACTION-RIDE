@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Education Ride{% endblock %}</title><meta name="theme-color" content="#10b981"><link rel="manifest" href="/static/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">{% block head %}{% endblock %}</head><body>
+<nav class="nav-bar navbar navbar-expand-lg"><div class="container">
+<a class="navbar-brand brand" href="/"><i class="bi bi-bus-front-fill text-success"></i> Education <b>Ride</b></a>
+<button class="navbar-toggler border-0" data-bs-toggle="collapse" data-bs-target="#nv" aria-label="Menu"><i class="bi bi-list text-white fs-2"></i></button>
+<div class="collapse navbar-collapse" id="nv"><ul class="navbar-nav me-auto gap-lg-2">
+<li class="nav-item"><a class="nav-link" href="/tracking">Live map</a></li>
+{% if session.role == 'student' %}<li class="nav-item"><a class="nav-link" href="/planner">Plan journey</a></li><li class="nav-item"><a class="nav-link" href="/emergency">Emergency ride</a></li>{% endif %}
+{% if session.role %}<li class="nav-item"><a class="nav-link" href="/crisis">Crisis plan{% if crisis_on %} <span class="badge bg-danger">LIVE</span>{% endif %}</a></li><li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard{% if unread %} <span class="badge bg-warning text-dark">{{ unread }}</span>{% endif %}</a></li><li class="nav-item"><a class="nav-link" href="/analytics">Analytics</a></li>{% endif %}
+</ul><div class="d-flex gap-2 align-items-center">
+<button id="bwBtn" class="btn btn-sm btn-outline-light" title="Low-bandwidth mode"><i class="bi bi-reception-2"></i></button>
+<button id="themeBtn" class="btn btn-sm btn-outline-light" aria-label="Toggle light or dark mode"><i class="bi bi-circle-half"></i></button>
+{% if session.role %}<form method="post" action="/logout" class="m-0"><input type="hidden" name="csrf" value="{{ csrf() }}"><button class="btn btn-sm btn-em">Log out ({{ session.name }})</button></form>
+{% else %}<a class="btn btn-sm btn-outline-light" href="/login">Log in</a><a class="btn btn-sm btn-em" href="/register">Register</a>{% endif %}
+</div></div></div></nav>
+<div class="container mt-3">{% for c, m in get_flashed_messages(with_categories=true) %}<div class="alert alert-{{ c }} alert-dismissible" role="alert">{{ m }}<button class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}<div id="offlineBox"></div>{% if crisis_on and session.role %}<div class="alert alert-danger py-2">Exam-day crisis is active. <a class="alert-link" href="/crisis">See the reallocation plan</a>.</div>{% endif %}</div>
+{% block body %}{% endblock %}
+<footer class="py-4 mt-4 text-center mut small border-top" style="border-color:var(--bd)!important">Education Ride. All records, vehicles and positions in this build are demonstration data.</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="{{ url_for('static', filename='js/app.js') }}"></script>{% block js %}{% endblock %}</body></html>

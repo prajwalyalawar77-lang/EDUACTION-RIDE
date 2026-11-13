@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}<div class="container py-4" style="max-width:460px"><div class="glass"><h2>Log in</h2>
+<form method="post"><input type="hidden" name="csrf" value="{{ csrf() }}">
+<label class="form-label mt-2" for="role">I am a</label><select id="role" name="role" class="form-select"><option value="student">Student</option><option value="parent">Parent</option><option value="admin">Administrator</option></select>
+<label class="form-label mt-2" for="email">Email</label><input id="email" name="email" type="email" class="form-control" required>
+<label class="form-label mt-2" for="pw">Password</label><input id="pw" name="password" type="password" class="form-control" required>
+<button class="btn btn-em w-100 mt-3">Log in</button></form>
+<p class="small mut mt-3">Demonstration accounts (password demo1234): student@demo.local, parent@demo.local, admin@demo.local</p>
+<a href="/register">Create an account</a></div></div>{% endblock %}

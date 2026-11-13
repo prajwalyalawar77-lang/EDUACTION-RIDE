@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block head %}<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">{% endblock %}
+{% block body %}<div class="container py-3"><h1 class="h3">Live map <span class="badge badge-sim">Simulated positions, not live GPS</span></h1>
+<p class="mut">Villages, colleges, bus routes and vehicles. Positions are interpolated from the schedule for demonstration; no GPS devices are connected. Cancelled routes show dashed red.</p>
+<div id="map"></div><div id="legend" class="mt-2 small mut"></div></div>{% endblock %}
+{% block js %}<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+const map=L.map('map').setView([12.9,77.35],9);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+fetch('/api/map').then(r=>r.json()).then(d=>{
+ for(const[n,c]of Object.entries(d.villages))L.circleMarker(c,{radius:6,color:'#10b981'}).addTo(map).bindPopup('Village: '+n);
+ for(const[n,c]of Object.entries(d.colleges))L.marker(c).addTo(map).bindPopup('College: '+n);
+ d.buses.forEach(b=>{const bad=b.status!=='running';L.polyline([b.a,b.c],{color:bad?'#dc2626':'#13305a',dashArray:bad?'6 8':null,weight:3}).addTo(map).bindPopup(b.name+' ('+b.status+')');
+  if(!bad)L.circleMarker(b.pos,{radius:8,color:'#0b1f3a',fillColor:'#f59e0b',fillOpacity:1}).addTo(map).bindPopup('Bus '+b.number+' (simulated position) departs '+b.depart_time)});
+ if(d.blocked)L.polyline(d.blocked,{color:'#dc2626',weight:7,opacity:.8}).addTo(map).bindPopup('Road closed: flooding');
+ d.vehicles.forEach(v=>L.circleMarker([v.lat,v.lng],{radius:6,color:v.verified?'#0b8f63':'#9ca3af',fillOpacity:.9}).addTo(map).bindPopup(v.vehicle_type+' '+v.reg_no+', '+v.seats+' seats ('+(v.verified?'verified':'unverified')+', simulated location)'));
+ document.getElementById('legend').textContent=d.note;});
+</script>{% endblock %}

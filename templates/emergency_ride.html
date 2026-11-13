@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% from '_form.html' import form %}{% block body %}<div class="container py-3"><h1 class="h3">Emergency ride finder</h1>
+{% for c in cancelled %}<div class="alert alert-danger">Bus {{ c.number }} ({{ c.depart_time }}) on your route is {{ c.status }}.</div>{% endfor %}
+<div class="glass mb-3">{% call form(st, today, res.trip if res) %}FIND MY ALTERNATIVE RIDE{% endcall %}</div>
+{% if res %}<div class="glass"><h2 class="h5">Best matches for {{ res.trip.n }} student(s)</h2>
+{% if res.nearby %}<p class="small">Students from {{ res.nearby|map('first')|join(', ') }} are also heading to this college that day, so one vehicle can serve several groups.</p>{% endif %}
+{% for o in res.opts %}<div class="border rounded p-3 mb-2" style="border-color:var(--bd)!important"><div class="d-flex justify-content-between flex-wrap gap-2"><div><b>{{ o.type }}</b> {{ o.reg_no }}
+{% if o.verified %}<span class="badge bg-success">Verified</span>{% else %}<span class="badge bg-danger">Not verified</span>{% endif %}{% if loop.first and o.verified %}<span class="badge bg-warning text-dark">Best match</span>{% endif %}</div>
+<div>{{ o.seats }} seats, {{ o.distance_km }} km, about {{ o.minutes }} min, Rs {{ o.fare_per_student|int }} per student (Rs {{ o.fare_total }} total)</div></div>
+<div class="small mut mt-1">Why: {{ o.reasons|join('; ') }}.</div>
+{% if o.verified and o.fits_group %}<form method="post" action="/emergency/request" class="mt-2"><input type="hidden" name="csrf" value="{{ csrf() }}"><input type="hidden" name="vehicle_id" value="{{ o.id }}">
+<input type="hidden" name="village" value="{{ res.trip.village }}"><input type="hidden" name="college" value="{{ res.trip.college }}"><input type="hidden" name="students" value="{{ res.trip.n }}"><input type="hidden" name="date" value="{{ res.trip.date }}"><input type="hidden" name="time" value="{{ res.trip.time }}">
+<button class="btn btn-em btn-sm">Request this ride (needs admin approval)</button></form>{% elif not o.fits_group %}<p class="small text-warning mb-0">Too few seats for your group.</p>{% else %}<p class="small text-danger mb-0">Cannot be requested until an admin verifies it.</p>{% endif %}</div>
+{% else %}<p class="mut">No vehicles are available. Your admin can add providers.</p>{% endfor %}</div>{% endif %}</div>{% endblock %}
